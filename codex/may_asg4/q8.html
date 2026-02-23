@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Slider</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        img {
+            width: 400px;
+            height: 250px;
+            border: 2px solid #333;
+            margin-bottom: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Image Slider</h2>
+
+    <img id="slider" src="" alt="Image Slider">
+
+    <br>
+    <button onclick="prevImage()">Previous</button>
+    <button onclick="nextImage()">Next</button>
+
+    <script>
+        // 1️⃣ Array of image URLs
+        const images = [
+            "https://i.pinimg.com/236x/7d/83/85/7d8385ae30bdbe7f883c12467f123ab1.jpg",
+            "https://images.unsplash.com/photo-1493612276216-ee3925520721?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tfGVufDB8fDB8fHww",
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGL3tFr9czbZ4y_XZwoYPYyxx9f6vc-aGCg&s",
+            "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww"
+        ];
+
+        let currentIndex = 0;
+        const slider = document.getElementById("slider");
+
+        // Display initial image
+        slider.src = images[currentIndex];
+
+        // 2️⃣ Next image function
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            slider.src = images[currentIndex];
+        }
+
+        // 3️⃣ Previous image function
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            slider.src = images[currentIndex];
+        }
+
+        // 4️⃣ Auto-slide every 3 seconds
+        setInterval(nextImage, 3000);
+    </script>
+
+</body>
+</html>

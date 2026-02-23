@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Session with LocalStorage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #welcomeSection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>User Login</h2>
+
+    <!-- Login Section -->
+    <div id="loginSection">
+        <input type="text" id="username" placeholder="Enter username">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Welcome Section -->
+    <div id="welcomeSection">
+        <h3 id="welcomeMessage"></h3>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        const loginSection = document.getElementById("loginSection");
+        const welcomeSection = document.getElementById("welcomeSection");
+        const welcomeMessage = document.getElementById("welcomeMessage");
+
+        // Check if user already logged in (after refresh)
+        window.onload = function() {
+            const storedUser = localStorage.getItem("username");
+
+            if (storedUser) {
+                showWelcome(storedUser);
+            }
+        };
+
+        function login() {
+            const username = document.getElementById("username").value.trim();
+
+            if (username === "") {
+                alert("Please enter username");
+                return;
+            }
+
+            // Save username in localStorage
+            localStorage.setItem("username", username);
+
+            showWelcome(username);
+        }
+
+        function showWelcome(username) {
+            loginSection.style.display = "none";
+            welcomeSection.style.display = "block";
+            welcomeMessage.textContent = "Welcome back, " + username + "!";
+        }
+
+        function logout() {
+            // Remove username from localStorage
+            localStorage.removeItem("username");
+
+            welcomeSection.style.display = "none";
+            loginSection.style.display = "block";
+            document.getElementById("username").value = "";
+        }
+    </script>
+
+</body>
+</html>

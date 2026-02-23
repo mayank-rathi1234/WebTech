@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Data Fetch & Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #ddd;
+        }
+        tr.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Student List</h2>
+
+    <input type="text" id="searchInput" placeholder="Search students..." onkeyup="filterTable()">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Rows will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch the JSON data file
+        fetch('students.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  // JSON.parse is done automatically here
+            })
+            .then(data => {
+                displayStudents(data);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                document.getElementById('tableBody').innerHTML = 
+                    '<tr><td colspan="3">Failed to load data.</td></tr>';
+            });
+
+        // Function to display student data in the table
+        function displayStudents(students) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = ''; // Clear any existing rows
+
+            students.forEach(student => {
+                const tr = document.createElement('tr');
+
+                const tdName = document.createElement('td');
+                tdName.textContent = student.name;
+                tr.appendChild(tdName);
+
+                const tdAge = document.createElement('td');
+                tdAge.textContent = student.age;
+                tr.appendChild(tdAge);
+
+                const tdGrade = document.createElement('td');
+                tdGrade.textContent = student.grade;
+                tr.appendChild(tdGrade);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Function to filter the table rows based on search input
+        function filterTable() {
+            const filterText = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const age = row.cells[1].textContent.toLowerCase();
+                const grade = row.cells[2].textContent.toLowerCase();
+
+                if (name.includes(filterText) || age.includes(filterText) || grade.includes(filterText)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

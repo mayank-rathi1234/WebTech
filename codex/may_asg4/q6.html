@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        input {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Registration Form</h2>
+
+    <form onsubmit="return validateForm()">
+
+        <div class="field">
+            <label>Name:</label>
+            <input type="text" id="name">
+            <div id="nameError" class="error"></div>
+        </div>
+
+        <div class="field">
+            <label>Email:</label>
+            <input type="text" id="email">
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <div class="field">
+            <label>Password:</label>
+            <input type="password" id="password">
+            <div id="passwordError" class="error"></div>
+        </div>
+
+        <div class="field">
+            <label>Confirm Password:</label>
+            <input type="password" id="confirmPassword">
+            <div id="confirmError" class="error"></div>
+        </div>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <script>
+        function validateForm() {
+
+            // Clear previous errors
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("emailError").textContent = "";
+            document.getElementById("passwordError").textContent = "";
+            document.getElementById("confirmError").textContent = "";
+
+            let isValid = true;
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            // 1️⃣ Name not empty
+            if (name === "") {
+                document.getElementById("nameError").textContent = "Name cannot be empty";
+                isValid = false;
+            }
+
+            // 2️⃣ Email format check using Regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById("emailError").textContent = "Enter valid email address";
+                isValid = false;
+            }
+
+            // 3️⃣ Strong password (at least 1 uppercase + 1 number, min 6 chars)
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+            if (!passwordRegex.test(password)) {
+                document.getElementById("passwordError").textContent =
+                    "Password must contain uppercase letter, number & min 6 characters";
+                isValid = false;
+            }
+
+            // 4️⃣ Confirm password match
+            if (password !== confirmPassword) {
+                document.getElementById("confirmError").textContent =
+                    "Passwords do not match";
+                isValid = false;
+            }
+
+            return isValid; // Prevent form submission if false
+        }
+    </script>
+
+</body>
+</html>
